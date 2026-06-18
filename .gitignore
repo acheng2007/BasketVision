@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Local inputs and generated outputs
+data/uploads/*
+data/reference/*
+outputs/*
+models/*.task
+
+!data/uploads/.gitkeep
+!data/reference/.gitkeep
+!outputs/.gitkeep
+!models/.gitkeep
+
+# System
+.DS_Store
+
