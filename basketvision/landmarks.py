@@ -81,4 +81,3 @@ SIDE_LANDMARKS = {
         "ankle": LANDMARK_IDS["right_ankle"],
     },
 }
-

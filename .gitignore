@@ -4,6 +4,18 @@ __pycache__/
 .venv/
 .pytest_cache/
 .ruff_cache/
+.mypy_cache/
+.nox/
+.tox/
+*.egg-info/
+build/
+dist/
+.coverage
+.coverage.*
+htmlcov/
+
+# Local agent guidance
+AGENTS.md
 
 # Local inputs and generated outputs
 data/uploads/*
@@ -18,4 +30,3 @@ models/*.task
 
 # System
 .DS_Store
-

@@ -46,13 +46,12 @@ class PoseExtractor:
             output_segmentation_masks=False,
         )
         self._mp = mp
-        self._vision = vision
         self._landmarker = vision.PoseLandmarker.create_from_options(options)
 
     def close(self) -> None:
         self._landmarker.close()
 
-    def __enter__(self) -> "PoseExtractor":
+    def __enter__(self) -> PoseExtractor:
         return self
 
     def __exit__(self, *_exc: object) -> None:
@@ -94,4 +93,3 @@ def _landmark_to_dict(point: object) -> dict[str, float]:
     if presence is not None:
         values["presence"] = float(presence)
     return values
-

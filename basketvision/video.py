@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Iterator
 
 
 @dataclass(frozen=True)
@@ -89,4 +89,3 @@ def create_video_writer(output_path: Path, fps: float, width: int, height: int):
     if not writer.isOpened():
         raise ValueError(f"Could not create annotated video: {output_path}")
     return writer
-

@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-
 CHART_SERIES = {
     "shooting_elbow_angle": "Shooting Elbow Angle",
     "shooting_shoulder_angle": "Shooting Shoulder Angle",
@@ -46,4 +45,3 @@ def write_metric_charts(metrics: dict[str, object], output_dir: Path) -> list[st
         chart_paths.append(str(chart_path))
 
     return chart_paths
-

@@ -3,9 +3,6 @@
 from __future__ import annotations
 
 
-PHASES = ["gather", "set_point", "release", "follow_through", "landing"]
-
-
 def detect_phases(metrics: dict[str, object]) -> dict[str, object]:
     timeline = metrics.get("timeline", [])
     if not isinstance(timeline, list) or not timeline:
@@ -86,4 +83,3 @@ def _frame_ref(frame: dict[str, object]) -> dict[str, int]:
         "frame_index": int(frame["frame_index"]),
         "timestamp_ms": int(frame["timestamp_ms"]),
     }
-

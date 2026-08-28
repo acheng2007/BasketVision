@@ -22,6 +22,10 @@ yolo = [
 
 [project.scripts]
 basketvision-analyze = "basketvision.cli:main"
+basketvision-live = "basketvision.cli:main_live"
+
+[tool.setuptools.packages.find]
+include = ["basketvision*"]
 
 [tool.ruff]
 line-length = 100

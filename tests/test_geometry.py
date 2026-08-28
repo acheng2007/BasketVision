@@ -15,4 +15,3 @@ def test_angle_degrees_returns_straight_line() -> None:
     c = {"x": 1.0, "y": 0.0, "z": 0.0}
 
     assert angle_degrees(a, b, c) == 180.0
-

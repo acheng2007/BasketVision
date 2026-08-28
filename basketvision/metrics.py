@@ -7,7 +7,6 @@ import math
 from basketvision.geometry import angle_degrees, landmark_is_usable, midpoint
 from basketvision.landmarks import LANDMARK_IDS, SIDE_LANDMARKS
 
-
 ANGLE_KEYS = [
     "shooting_elbow_angle",
     "shooting_shoulder_angle",
@@ -148,7 +147,9 @@ def _smooth_timeline(timeline: list[dict[str, float | int]]) -> list[dict[str, f
         return timeline
 
     for key in ANGLE_KEYS:
-        values = [float(frame[key]) if _is_number(frame.get(key)) else math.nan for frame in timeline]
+        values = [
+            float(frame[key]) if _is_number(frame.get(key)) else math.nan for frame in timeline
+        ]
         filled = _fill_missing(values)
         if filled is None:
             continue
@@ -184,4 +185,3 @@ def _fill_missing(values: list[float]) -> list[float] | None:
 
 def _is_number(value: object) -> bool:
     return isinstance(value, int | float) and not math.isnan(float(value))
-

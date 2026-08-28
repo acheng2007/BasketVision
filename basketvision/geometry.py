@@ -41,4 +41,3 @@ def midpoint(points: Sequence[dict[str, float]]) -> dict[str, float]:
 
 def landmark_is_usable(point: dict[str, float], threshold: float = 0.35) -> bool:
     return point.get("visibility", 1.0) >= threshold and point.get("presence", 1.0) >= threshold
-

@@ -32,8 +32,7 @@ def track_ball_and_hoop(
         from ultralytics import YOLO
     except ImportError as exc:
         raise RuntimeError(
-            "YOLO tracking requires the optional dependency: "
-            'python -m pip install -e ".[yolo]"'
+            'YOLO tracking requires the optional dependency: python -m pip install -e ".[yolo]"'
         ) from exc
 
     targets = {label.lower() for label in (target_labels or DEFAULT_TARGET_LABELS)}
@@ -76,4 +75,3 @@ def track_ball_and_hoop(
         "target_labels": sorted(targets),
         "frames": frames,
     }
-

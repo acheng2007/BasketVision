@@ -5,7 +5,6 @@ from __future__ import annotations
 import math
 from pathlib import Path
 
-
 METRIC_LABELS = {
     "shooting_elbow_angle": "Shooting elbow",
     "shooting_shoulder_angle": "Shooting shoulder",
@@ -28,6 +27,7 @@ def write_report(
 ) -> None:
     summary = metrics.get("summary", {})
     keyframes = phases.get("keyframes", {})
+    detected_pose_frames = int(metrics.get("detected_pose_frames", 0))
 
     lines = [
         "# BasketVision Analysis Report",
@@ -36,7 +36,7 @@ def write_report(
         f"- **Duration:** {float(metadata.get('duration_seconds', 0.0)):.2f}s",
         f"- **Resolution:** {metadata.get('width')}x{metadata.get('height')}",
         f"- **FPS:** {float(metadata.get('fps', 0.0)):.2f}",
-        f"- **Detected pose frames:** {metrics.get('detected_pose_frames', 0)}",
+        f"- **Detected pose frames:** {detected_pose_frames}",
         "",
         "## Shot Phase Key Frames",
         "",
@@ -50,9 +50,16 @@ def write_report(
                     f"frame {ref.get('frame_index')} at {ref.get('timestamp_ms')}ms"
                 )
 
+    if not keyframes:
+        lines.append(
+            "_No shot phases were detected. Use footage where the shooter's full body is visible._"
+        )
+
     lines.extend(["", "## Metric Summary", ""])
 
-    if isinstance(summary, dict):
+    if detected_pose_frames == 0:
+        lines.append("_No pose metrics were available for this video._")
+    elif isinstance(summary, dict):
         lines.append("| Metric | Min | Max | Mean | Range |")
         lines.append("| --- | ---: | ---: | ---: | ---: |")
         for key, label in METRIC_LABELS.items():
@@ -77,13 +84,20 @@ def write_report(
             "## Generated Visuals",
             "",
             "- `annotated.mp4` contains the skeleton overlay and rough phase labels.",
-            "- `keyframes/` contains still images for the detected shot phases.",
-            "- `charts/` contains local timeline charts.",
         ]
     )
 
-    for path in chart_paths:
-        lines.append(f"- `{Path(path).name}`")
+    if keyframes:
+        lines.append("- `keyframes/` contains still images for the detected shot phases.")
+    else:
+        lines.append("- No keyframe images were generated because no shot phases were detected.")
+
+    if chart_paths:
+        lines.append("- `charts/` contains local timeline charts:")
+        for path in chart_paths:
+            lines.append(f"  - `{Path(path).name}`")
+    else:
+        lines.append("- No metric charts were generated because no pose metrics were available.")
 
     output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
@@ -91,7 +105,10 @@ def write_report(
 def _ball_tracking_note(enabled: bool) -> str:
     if enabled:
         return "- Ball/hoop detections were saved to `ball_tracking.json`."
-    return "- Ball and hoop tracking are optional and disabled by default until pose metrics are reliable."
+    return (
+        "- Ball and hoop tracking are optional and disabled by default until pose metrics "
+        "are reliable."
+    )
 
 
 def _fmt(value: object) -> str:
@@ -100,4 +117,3 @@ def _fmt(value: object) -> str:
     if math.isnan(float(value)):
         return "n/a"
     return f"{float(value):.2f}"
-
